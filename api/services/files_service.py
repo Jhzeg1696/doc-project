@@ -21,4 +21,16 @@ def create_folder(path):
     
     else:
         return False
+
+def remove_file(id):
+    result: bool = False
+
+    if os.path.exists(str(id)+"/modificated_pdf.pdf"):
+        os.remove("modificated_pdf.pdf")
+        result = True
+        
+    else:
+        result = False
+    
+    return result
     

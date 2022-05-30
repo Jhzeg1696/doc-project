@@ -1,7 +1,8 @@
+import datetime
 import json
 from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Depends, Request, File, UploadFile, Form, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from fastapi.middleware.cors import CORSMiddleware
@@ -45,7 +46,8 @@ def login(user: User, Authorize: AuthJWT = Depends()):
     loggedIn = database.login(user.username, user.password)
     print(loggedIn)
     if loggedIn['exists']:
-        access_token = Authorize.create_access_token(subject=json.dumps({"id": loggedIn['data']["user_id"], "type": loggedIn['data']["type"]}))
+        expires = datetime.timedelta(days=1)
+        access_token = Authorize.create_access_token(subject=json.dumps({"id": loggedIn['data']["user_id"], "type": loggedIn['data']["type"]}), expires_time=expires)
         return {"access_token": access_token}
     else:
         return JSONResponse(status_code=401, content="Bad username or password")
@@ -62,16 +64,72 @@ def user(Authorize: AuthJWT = Depends()):
 
     #return JSONResponse(content=json_compatible_item_data)
 
+@app.get('/documents')
+def get_documents(Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
+    
+    current_user = Authorize.get_jwt_subject()
+
+    return JSONResponse(status_code=200, content=document_service.get_data())
+
+@app.get('/document/{id}')
+def get_document(id: str, Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
+    
+    current_user = Authorize.get_jwt_subject()
+
+    return JSONResponse(status_code=200, content=document_service.get_document(id))
+
 @app.post("/document")
 def create_document(document: Document, Authorize: AuthJWT = Depends()):
     Authorize.jwt_required()
     statusCode: int
     content: str
-    savedDocument = document_service.save_data(document.propertie1, document.propertie2, document.propertie3)
-
+    savedDocument = document_service.save_data(
+        document.propertie1, 
+        document.propertie2, 
+        document.propertie3,
+        document.propertie4, 
+        document.propertie5, 
+        document.propertie6, 
+        document.propertie7, 
+        document.propertie8, 
+        document.propertie9, 
+        document.propertie10,
+        document.propertie11,
+        document.propertie12,
+        document.propertie13,
+        document.propertie14,
+        document.propertie15,
+        document.propertie16,
+        document.propertie17,
+        document.propertie18,
+        document.propertie19, 
+        )
     if savedDocument["status"] == True:
 
-        if document_helper.create_document(savedDocument["id"], document.propertie1, document.propertie2, document.propertie3):
+        if document_helper.create_document(
+            savedDocument["id"], 
+            document.propertie1, 
+            document.propertie2, 
+            document.propertie3,
+            document.propertie4,
+            document.propertie5,
+            document.propertie6,
+            document.propertie7,
+            document.propertie8,
+            document.propertie9,
+            document.propertie10,
+            document.propertie11,
+            document.propertie12,
+            document.propertie13,
+            document.propertie14,
+            document.propertie15,
+            document.propertie16,
+            document.propertie17,
+            document.propertie18,
+            document.propertie19,
+            ):
             statusCode = 200
             content = "Document created"
 
@@ -85,5 +143,78 @@ def create_document(document: Document, Authorize: AuthJWT = Depends()):
         content = "An error ocurred saving the document in the datase"
 
     return JSONResponse(status_code=statusCode, content=content)
+
+@app.put("/document/{id}")
+def create_document(id: str, document: Document, Authorize: AuthJWT = Depends()):
+    Authorize.jwt_required()
+    statusCode: int
+    content: str
+    savedDocument = document_service.update_document(
+        id,
+        document.propertie1, 
+        document.propertie2, 
+        document.propertie3,
+        document.propertie4, 
+        document.propertie5, 
+        document.propertie6, 
+        document.propertie7, 
+        document.propertie8, 
+        document.propertie9, 
+        document.propertie10,
+        document.propertie11,
+        document.propertie12,
+        document.propertie13,
+        document.propertie14,
+        document.propertie15,
+        document.propertie16,
+        document.propertie17,
+        document.propertie18,
+        document.propertie19, 
+        )
+    if savedDocument["status"] == True:
+        
+        if document_helper.update_document(
+            id,
+            document.propertie1, 
+            document.propertie2, 
+            document.propertie3,
+            document.propertie4,
+            document.propertie5,
+            document.propertie6,
+            document.propertie7,
+            document.propertie8,
+            document.propertie9,
+            document.propertie10,
+            document.propertie11,
+            document.propertie12,
+            document.propertie13,
+            document.propertie14,
+            document.propertie15,
+            document.propertie16,
+            document.propertie17,
+            document.propertie18,
+            document.propertie19,
+            ):
+            statusCode = 200
+            content = "Document updated"
+
+        else:
+            statusCode = 400
+            content = "An error ocurred updating the PDF file"
+
+
+    else:
+        statusCode = 400
+        content = "An error ocurred updating the document in the datase"
+
+    return JSONResponse(status_code=statusCode, content=content)
     
+@app.get('/pdf/{id}')
+def get_documents(id: str):
+    #Authorize.jwt_required()
+    print("works")
+    return FileResponse("assets/"+id+"/modificated_pdf.pdf")
+    #current_user = Authorize.get_jwt_subject()
+
+    #return JSONResponse(status_code=200, content=document_service.get_data())
 

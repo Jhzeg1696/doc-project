@@ -9,12 +9,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor-service.service'; 
 import { NotificationService } from './services/notification.service';
 import { CreateFileComponent } from './components/create-file/create-file.component';
+import { ListFilesComponent } from './components/list-files/list-files.component';
+import { EditFileComponent } from './components/edit-file/edit-file.component';
  
 @NgModule({ 
   declarations: [ 
     AppComponent, 
     LoginComponent, 
-    PerfilComponent, CreateFileComponent, 
+    PerfilComponent, CreateFileComponent, ListFilesComponent, EditFileComponent, 
      
   ], 
   imports: [ 

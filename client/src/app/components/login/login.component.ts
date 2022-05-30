@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       if (res.access_token) 
       {
         this._auth.setDataInLocalStorage('token', res.access_token)
-        this.router.navigate(['profile'])
+        this.router.navigate(['list-files'])
         this._notificationService.updateLogin(true)
       }
 

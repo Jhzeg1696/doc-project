@@ -21,13 +21,18 @@ export class InterceptorService {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> { 
-
+    /*
     request = request.clone({ headers: request.headers.set('Accept', 'application/json').set('Content-Type', 'application/json') }).clone({ 
       setHeaders: { 
         Authorization: `Bearer ${this._auth.getToken()}` 
       } 
     });     
-
+*/
+request = request.clone().clone({ 
+  setHeaders: { 
+    Authorization: `Bearer ${this._auth.getToken()}` 
+  } 
+});  
 
     return next.handle(request) 
   }
