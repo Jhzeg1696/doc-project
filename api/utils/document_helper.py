@@ -5,7 +5,7 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
-def remove_file(id):
+def remove_file(id): 
     result: bool = True
 
     if os.path.exists("assets/"+str(id)+"/modificated_pdf.pdf"):

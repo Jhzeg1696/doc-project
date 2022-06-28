@@ -1,5 +1,8 @@
 import datetime
+from email.mime import image
 import json
+import base64
+import os 
 from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Depends, Request, File, UploadFile, Form, status
 from fastapi.responses import JSONResponse, FileResponse
@@ -8,7 +11,8 @@ from fastapi_jwt_auth.exceptions import AuthJWTException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-
+from typing import List
+from pydantic import BaseModel
 from models.user import User
 from models.settings import Settings
 from models.document import Document
@@ -16,6 +20,10 @@ from models.document import Document
 from services import database
 from services import document_service
 from services import files_service
+from services import pdf_service
+from services import image_service
+from services import email_service 
+
 from utils import document_helper
 
 app = FastAPI()
@@ -218,3 +226,113 @@ def get_documents(id: str):
 
     #return JSONResponse(status_code=200, content=document_service.get_data())
 
+class Item(BaseModel):
+    id: int
+    x: int
+    y: int
+
+
+@app.post("/markers")
+def create_document(images: List[UploadFile], canvas1: str = Form(...), canvas2: str = Form(...)):
+   canvas1 = json.loads(canvas1)
+   canvas2 = json.loads(canvas2)
+
+   trckData = database.save_trck_data()
+   path = "assets/trck_images/" + str(trckData['id']) + "/"
+
+   print("Below are the properties of the first canvas")
+   for properties in canvas1:
+    database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+    print(properties)
+   
+   print("Below are the properties of the second canvas")
+   for properties in canvas2:
+    database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+    print(properties)
+
+   if files_service.create_folder(path):
+    for img in images:
+            files_service.upload_file(path, img)
+            print(img.filename)
+
+   return {"message": "ss"}
+
+@app.get("/markers")
+def get_trcks_data(Authorize: AuthJWT = Depends()):
+    # DONT FORGET ABOUT ADDING THE AUTHENTICATION
+    #Authorize.jwt_required()
+
+    trcksData = jsonable_encoder(database.get_trcks_data())
+
+    return JSONResponse(content=trcksData)
+
+@app.get("/markers/{id}")
+def get_trcks_data(id: int, Authorize: AuthJWT = Depends()):
+    # DONT FORGET ABOUT ADDING THE AUTHENTICATION
+    #Authorize.jwt_required()
+    print(id)
+    trcksData = jsonable_encoder(database.get_trck_data(id))
+
+    return JSONResponse(content=trcksData)
+
+@app.get("/images/{id}")
+def get_trcks_data(id: int, Authorize: AuthJWT = Depends()):
+    # DONT FORGET ABOUT ADDING THE AUTHENTICATION
+    #Authorize.jwt_required()
+    path_of_the_directory= './assets/trck_images/' + str(id)
+    counter = 0
+    images = []
+    print("Files and directories in a specified path:")
+    for filename in os.listdir(path_of_the_directory):
+        counter += 1
+        f = os.path.join(path_of_the_directory,filename)
+        if os.path.isfile(f):
+            print(f)
+            with open(f, "rb") as img_file:
+                imageb64 = base64.b64encode(img_file.read())
+                images.append({"id": counter, "image": imageb64})
+
+    return {"message": images}
+
+
+@app.get("/trck_pdf/{id}")
+def get_trck_pdf(id: int, Authorize: AuthJWT = Depends()):
+    # DONT FORGET ABOUT ADDING THE AUTHENTICATION
+    #Authorize.jwt_required()
+
+    # Getting the trck data
+    markers = database.get_trck_data(id)
+
+    # List to save all the markers coordinates
+    coordinates = []
+
+    # List to saves all the images path
+    imagesPath = []
+    attachedImagesPath = []
+
+    path_of_the_directory= './assets/trck_images/' + str(id) + '/pdf_images/'
+    pathImages = './assets/trck_images/' + str(id) + '/'
+
+    for marker in markers:
+       coordinates.append({'canvasID': marker[1], 'x': marker[3], 'y': marker[4]})
+       image_service.drawMarkers(id, coordinates)
+        
+    for filename in os.listdir(path_of_the_directory):
+        f = os.path.join(path_of_the_directory,filename)
+        if os.path.isfile(f):
+            imagesPath.append(f)
+
+    for filename in os.listdir(pathImages):
+        f = os.path.join(pathImages,filename)
+        if os.path.isfile(f):
+            attachedImagesPath.append(f)
+    
+    pdf = pdf_service.add_image(id, imagesPath, attachedImagesPath)
+    
+    #pdf = pdf_service.add_image(id, img)
+    return FileResponse(pdf)
+    
+@app.get("/trck_send_pdf/{id}")
+def get_send_pdf(id):
+    path_of_the_directory = './assets/trck_images/' + str(id) + '/pdf/dddddd.pdf'
+    email_service.send_email_pdf_figs(path_of_the_directory)
