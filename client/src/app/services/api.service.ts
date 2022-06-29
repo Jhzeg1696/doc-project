@@ -35,6 +35,42 @@ export class ApiService {
       return res; 
     })); 
   } 
+
+  postTrckTypeRequest(url: string, canvas1: any, canvas2: any, canvas3: any, canvas4: any, 
+    canvas5: any, canvas6: any, canvas7: any, canvas8: any, images: any) 
+  {
+    const data: FormData = new FormData();
+    data.append('canvas1', JSON.stringify(canvas1)); 
+    data.append('canvas2', JSON.stringify(canvas2));
+    data.append('canvas3', JSON.stringify(canvas3));
+    data.append('canvas4', JSON.stringify(canvas4));
+    data.append('canvas5', JSON.stringify(canvas5));
+    data.append('canvas6', JSON.stringify(canvas6));
+    data.append('canvas7', JSON.stringify(canvas7));
+    data.append('canvas8', JSON.stringify(canvas8));
+
+    console.warn(canvas5)
+    
+    images.forEach((element: any) => {   
+      data.append('images', element);
+    });
+
+    //{headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json')}
+    
+    return this.httpClient.post(this.REST_API_SERVER+url, data).pipe(map(res => { 
+      return res; 
+    })); 
+    
+  } 
+
+  getPdfTrckTypeRequest(url: any) {
+    return this.httpClient.get(this.REST_API_SERVER+url, { responseType: 'blob' }).pipe(
+        map((resp: any) => {
+            const downloadUrl = window.URL.createObjectURL(resp);
+            window.open(downloadUrl);
+        })
+    )
+  }
  
   putTypeRequest(url: any, payload: any) 
   {

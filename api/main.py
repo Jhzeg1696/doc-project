@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from models.user import User
 from models.settings import Settings
 from models.document import Document
-
+import time
 from services import database
 from services import document_service
 from services import files_service
@@ -233,29 +233,63 @@ class Item(BaseModel):
 
 
 @app.post("/markers")
-def create_document(images: List[UploadFile], canvas1: str = Form(...), canvas2: str = Form(...)):
-   canvas1 = json.loads(canvas1)
-   canvas2 = json.loads(canvas2)
+def create_document(images: List[UploadFile], canvas1: str = Form(...), canvas2: str = Form(...), canvas3: str = Form(...), canvas4: str = Form(...), canvas5: str = Form(...), canvas6: str = Form(...), canvas7: str = Form(...), canvas8: str = Form(...)):
+    canvas1 = json.loads(canvas1)
+    canvas2 = json.loads(canvas2)
+    canvas3 = json.loads(canvas3)
+    canvas4 = json.loads(canvas4)
+    canvas5 = json.loads(canvas5)
+    canvas6 = json.loads(canvas6)
+    canvas7 = json.loads(canvas7)
+    canvas8 = json.loads(canvas8)
 
-   trckData = database.save_trck_data()
-   path = "assets/trck_images/" + str(trckData['id']) + "/"
+    trckData = database.save_trck_data()
+    path = "assets/trck_images/" + str(trckData['id']) + "/"
 
-   print("Below are the properties of the first canvas")
-   for properties in canvas1:
-    database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-    print(properties)
+    print("Below are the properties of the first canvas")
+    for properties in canvas1:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
    
-   print("Below are the properties of the second canvas")
-   for properties in canvas2:
-    database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-    print(properties)
+    print("Below are the properties of the second canvas: ")
+    
+    if canvas2:
+        for properties in canvas2:
+            database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+            print(properties)
+    else:
+        database.save_trck_markers(2, trckData['id'], 150000, 150000)
 
-   if files_service.create_folder(path):
-    for img in images:
+    for properties in canvas3:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
+
+    for properties in canvas4:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
+
+    for properties in canvas5:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
+
+    for properties in canvas6:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
+
+    for properties in canvas7:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
+
+    for properties in canvas8:
+        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+        print(properties)
+
+    if files_service.create_folder(path):
+        for img in images:
             files_service.upload_file(path, img)
             print(img.filename)
 
-   return {"message": "ss"}
+    return {"message": "ss"}
 
 @app.get("/markers")
 def get_trcks_data(Authorize: AuthJWT = Depends()):
@@ -301,7 +335,7 @@ def get_trck_pdf(id: int, Authorize: AuthJWT = Depends()):
     #Authorize.jwt_required()
 
     # Getting the trck data
-    markers = database.get_trck_data(id)
+    #markers = database.get_trck_data(id)
 
     # List to save all the markers coordinates
     coordinates = []
@@ -310,24 +344,25 @@ def get_trck_pdf(id: int, Authorize: AuthJWT = Depends()):
     imagesPath = []
     attachedImagesPath = []
 
-    path_of_the_directory= './assets/trck_images/' + str(id) + '/pdf_images/'
+    #path_of_the_directory= './assets/trck_images/' + str(id) + '/pdf_images/'
     pathImages = './assets/trck_images/' + str(id) + '/'
 
-    for marker in markers:
-       coordinates.append({'canvasID': marker[1], 'x': marker[3], 'y': marker[4]})
-       image_service.drawMarkers(id, coordinates)
+    #for marker in markers:
+       #coordinates.append({'canvasID': marker[1], 'x': marker[3], 'y': marker[4]})
+       #image_service.drawMarkers(id, coordinates)
         
-    for filename in os.listdir(path_of_the_directory):
-        f = os.path.join(path_of_the_directory,filename)
-        if os.path.isfile(f):
-            imagesPath.append(f)
+    #for filename in os.listdir(path_of_the_directory):
+        #f = os.path.join(path_of_the_directory,filename)
+        #if os.path.isfile(f):
+            #imagesPath.append(f)
 
     for filename in os.listdir(pathImages):
         f = os.path.join(pathImages,filename)
         if os.path.isfile(f):
             attachedImagesPath.append(f)
     
-    pdf = pdf_service.add_image(id, imagesPath, attachedImagesPath)
+    pdf = pdf_service.add_image(id, attachedImagesPath)
+
     
     #pdf = pdf_service.add_image(id, img)
     return FileResponse(pdf)

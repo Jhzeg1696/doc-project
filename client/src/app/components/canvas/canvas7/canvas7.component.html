@@ -1,0 +1,11 @@
+<canvas #canvas id="canvas" name="canvas" width="463" height="450" (click)="handleClickInsideCanvas($event, 7)" style="background-image: url('https://kbimages.dreamhosters.com/images/Site_Not_Found_Dreambot.fw.png');">
+</canvas>
+
+
+<ul>
+  <li *ngFor="let marker of markers">{{marker | json}} <button (click)="removeMarkerFromArray(marker)">x</button></li>
+</ul>
+
+<!--
+<button class="btn btn-success" (click)="sendMarkers()">send</button>
+-->

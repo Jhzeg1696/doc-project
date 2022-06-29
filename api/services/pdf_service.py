@@ -1,26 +1,47 @@
 from reportlab.pdfgen import canvas
- 
- 
-def create_pdf():
-    pdf_file = 'multipage.pdf'
+import os
+def create_pdf(trckID):
+    pdf_file = 'assets/trck_images' + str(trckID) + '/dddddd.pdf'
  
     can = canvas.Canvas(pdf_file)
  
     can.drawString(20, 800, "First Page")
     can.showPage()
  
-    can.drawString(20, 800, "Second Page")
-    can.showPage()
- 
-    can.drawString(20, 700, "Third Page")
-    can.showPage()
- 
     can.save()
+
+def create_folder(path):
+    exists = os.path.exists(path)
+
+    if not exists:
+        os.makedirs(path)
+        return True
+    
+    else:
+        return False
  
-def add_image(trckID, imagesPath, attachedImagesPath):
+def add_image(trckID, attachedImagesPath):
  
     from PyPDF2 import PdfFileWriter, PdfFileReader
     import io
+    from services import database, image_service
+
+    create_folder('assets/trck_images/' + str(trckID) + '/pdf')
+    create_folder('assets/trck_images/' + str(trckID) + '/pdf_images')
+
+    markers = database.get_trck_data(trckID)
+    coordinates= []
+    for marker in markers:
+       coordinates.append({'canvasID': marker[1], 'x': marker[3], 'y': marker[4]})
+       image_service.drawMarkers(trckID, coordinates)
+
+    imagesPath= []
+    path_of_the_directory= 'assets/trck_images/' + str(trckID) + '/pdf_images/'
+
+    for filename in os.listdir(path_of_the_directory):
+        f = os.path.join(path_of_the_directory,filename)
+        if os.path.isfile(f):
+            imagesPath.append(f)
  
     in_pdf_file = 'og_pdf.pdf'
     out_pdf_file = 'assets/trck_images/' + str(trckID) + '/pdf/dddddd.pdf'
@@ -30,17 +51,28 @@ def add_image(trckID, imagesPath, attachedImagesPath):
     can = canvas.Canvas(packet)
     #can.drawString(10, 100, "Hello world")
     x_start = 0
-    y_start = 480
+    y_start = 470
 
     attachedImagesXAxis = 0
-    attachedImagesYAxis = 0
+    attachedImagesYAxis = -150
 
     counter = 0
+    counterXAxisSecondRow = 0
+    counterToLineBreak = 0
+
     attachedImagesCounter = 0
 
     for image in imagesPath:
-        can.drawImage(image, x_start + counter, y_start, width=120, preserveAspectRatio=True, mask='auto')
-        counter += 125
+        counterToLineBreak += 1
+        if counterToLineBreak > 4:
+            can.drawImage(image, x_start + counterXAxisSecondRow, 300, width=140, preserveAspectRatio=True, mask='auto')
+            print(image)
+            counterXAxisSecondRow += 150
+        else:
+            can.drawImage(image, x_start + counter, y_start, width=140, preserveAspectRatio=True, mask='auto')
+            counter += 150
+
+        
 
     for atacchedImage in attachedImagesPath:
         can.drawImage(atacchedImage, attachedImagesXAxis + attachedImagesCounter, attachedImagesYAxis, width=50, preserveAspectRatio=True, mask='auto')
@@ -69,5 +101,6 @@ def add_image(trckID, imagesPath, attachedImagesPath):
     outputStream = open(out_pdf_file, "wb")
     output.write(outputStream)
     outputStream.close()
+
     return 'assets/trck_images/' + str(trckID) + '/pdf/dddddd.pdf'
  

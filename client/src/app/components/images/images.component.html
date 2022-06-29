@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <img *ngIf="preview1 != null || preview1 != undefined" [src]="preview1" style="width: 150px; "
+                class="img-fluid" alt="">
+            <input type='file' id="archivo" (change)="loadImg1($any($event).target.files)">
+        </div>
+
+        <div class="col-md-3">
+            <img *ngIf="preview2 != null || preview2 != undefined" [src]="preview2" style="width: 150px; "
+                class="img-fluid" alt="">
+            <input type='file' id="archivo" (change)="loadImg2($any($event).target.files)">
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="container" *ngIf="displayCurrentImages">
+    <div class="row">
+        <div class="col-md-3" *ngFor="let image of images">
+           
+            <img *ngIf="preview1 != null || preview1 != undefined" [src]="'data:image/jpg;base64,' + image.image" style="width: 250px; "
+                class="img-fluid" alt="">
+        </div>
+    </div>
+</div>
+-->

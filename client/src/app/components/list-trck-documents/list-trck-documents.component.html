@@ -1,0 +1,20 @@
+<ul>
+    <li *ngFor="let trck of trcksData" [routerLink]="['/update-element/', trck[0]]">{{trck}}</li>
+</ul>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">PDF</th>
+        <th scope="col">em</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trck of trcksData" >
+        <th scope="row" [routerLink]="['/update-element/', trck[0]]">{{trck}}</th>
+        <th><button class="btn btn-sm btn-warning" (click)="getTrcksPdf(trck[0])">SEE</button></th>
+        <th><button class="btn btn-sm btn-warning" (click)="sendEmail(trck[0])">em</button></th>
+      </tr>
+    </tbody>
+  </table>

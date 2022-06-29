@@ -43,6 +43,12 @@ def drawMarkers(id, coordinates):
 
     image1 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
     image2 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image3 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image4 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image5 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image6 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image7 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image8 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
 
     height = image1.shape[0]
     width = image1.shape[1]
@@ -58,6 +64,24 @@ def drawMarkers(id, coordinates):
         if coordinate['canvasID'] == 2:
             cv2.circle(image2, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
             cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image2)
+        if coordinate['canvasID'] == 3:
+            cv2.circle(image3, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
+            cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image3)
+        if coordinate['canvasID'] == 4:
+            cv2.circle(image4, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
+            cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image4)
+        if coordinate['canvasID'] == 5:
+            cv2.circle(image5, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
+            cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image5)
+        if coordinate['canvasID'] == 6:
+            cv2.circle(image6, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
+            cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image6)
+        if coordinate['canvasID'] == 7:
+            cv2.circle(image7, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
+            cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image7)
+        if coordinate['canvasID'] == 8:
+            cv2.circle(image8, (int(coordinate['x']), int(coordinate['y'])), 10, (0,0,255), 2)
+            cv2.imwrite('./assets/trck_images/' + str(id) + '/pdf_images/' + str(coordinate['canvasID'])  + '.jpg', image8)
     
     #return image
     #cv2.imshow("Image", image)
