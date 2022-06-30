@@ -2,9 +2,9 @@ import mysql.connector
 
 def get_items():
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -18,9 +18,9 @@ def get_items():
 
 def save_data():
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -40,9 +40,9 @@ def save_data():
 def login(correo, contrasena):
     # Creating the connection
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host = "45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -62,9 +62,9 @@ def login(correo, contrasena):
 
 def get_trcks_data():
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -78,9 +78,9 @@ def get_trcks_data():
 
 def get_trck_data(trckID):
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -94,9 +94,9 @@ def get_trck_data(trckID):
 
 def save_trck_data():
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -116,9 +116,9 @@ def save_trck_data():
 
 def save_trck_markers(canvasID, trckID, x, y):
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 

@@ -1,15 +1,84 @@
-<div class="container">
+<div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-6">
+            <label for="">Imagen 1</label>
+            <br>
             <img *ngIf="preview1 != null || preview1 != undefined" [src]="preview1" style="width: 150px; "
                 class="img-fluid" alt="">
-            <input type='file' id="archivo" (change)="loadImg1($any($event).target.files)">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg1($any($event).target.files)">
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
+            <label for="">Imagen 2</label>
+            <br>
             <img *ngIf="preview2 != null || preview2 != undefined" [src]="preview2" style="width: 150px; "
                 class="img-fluid" alt="">
-            <input type='file' id="archivo" (change)="loadImg2($any($event).target.files)">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg2($any($event).target.files)">
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <label for="">Imagen 3</label>
+            <br>
+            <img *ngIf="preview3 != null || preview3 != undefined" [src]="preview3" style="width: 150px; "
+                class="img-fluid" alt="">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg3($any($event).target.files)">
+        </div>
+
+        <div class="col-md-6">
+            <label for="">Imagen 4</label>
+            <br>
+            <img *ngIf="preview4 != null || preview4 != undefined" [src]="preview4" style="width: 150px; "
+                class="img-fluid" alt="">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg4($any($event).target.files)">
+        </div>
+
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <label for="">Imagen 5</label>
+            <br>
+            <img *ngIf="preview5 != null || preview5 != undefined" [src]="preview5" style="width: 150px; "
+                class="img-fluid" alt="">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg5($any($event).target.files)">
+        </div>
+
+        <div class="col-md-6">
+            <label for="">Imagen 6</label>
+            <br>
+            <img *ngIf="preview6 != null || preview6 != undefined" [src]="preview6" style="width: 150px; "
+                class="img-fluid" alt="">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg6($any($event).target.files)">
+        </div>
+
+        
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <label for="">Imagen 7</label>
+            <br>
+            <img *ngIf="preview7 != null || preview7 != undefined" [src]="preview7" style="width: 150px; "
+                class="img-fluid" alt="">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg7($any($event).target.files)">
+        </div>
+
+        <div class="col-md-6">
+            <label for="">Imagen 8</label>
+            <br>
+            <img *ngIf="preview8 != null || preview8 != undefined" [src]="preview8" style="width: 150px; "
+                class="img-fluid" alt="">
+                <br>
+            <input class="mt-3" type='file' id="archivo" (change)="loadImg8($any($event).target.files)">
         </div>
     </div>
 </div>

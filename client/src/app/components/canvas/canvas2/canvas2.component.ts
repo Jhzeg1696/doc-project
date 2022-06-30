@@ -24,6 +24,7 @@ export class Canvas2Component implements OnInit {
     private _canvasDataService: CanvasDataService
   ) 
   { 
+    /*
     this.subscription = this._canvasDataService.currentMessageCanvas1.subscribe((markers: any) => {
       if(markers[3] != "a")
       {
@@ -40,6 +41,7 @@ export class Canvas2Component implements OnInit {
         }
       } 
     })
+    */
   }
 
   ngOnInit(): void

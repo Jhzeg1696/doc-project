@@ -85,11 +85,21 @@ export class CreateTrckDocumentComponent {
 
   send()
   {
-    
-    this._apiService.postTrckTypeRequest('markers', this.canvas1, this.canvas2, this.canvas3, this.canvas4, 
-    this.canvas5, this.canvas6, this.canvas7, this.canvas8, this.images).subscribe(
-      response => alert(response)
-    )
+    if(this.images.length < 8 || this.images.length == 17) 
+    {
+      alert("Elige todas las imagenes");
+      
+    }
+    else
+    {
+      
+      this._apiService.postTrckTypeRequest('markers', this.canvas1, this.canvas2, this.canvas3, this.canvas4, 
+      this.canvas5, this.canvas6, this.canvas7, this.canvas8, this.images).subscribe(
+        response => alert(response)
+      )
+      
+    }
+   
     
   }
 

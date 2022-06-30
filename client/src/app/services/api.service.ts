@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 export class ApiService { 
  
  
-  private REST_API_SERVER = "http://localhost:8000/"; 
+  private REST_API_SERVER = "http://45.33.20.87:8000/"; 
   constructor(private httpClient: HttpClient) { } 
  
   getTypeRequest(url: any) 
@@ -49,12 +49,18 @@ export class ApiService {
     data.append('canvas7', JSON.stringify(canvas7));
     data.append('canvas8', JSON.stringify(canvas8));
 
-    console.warn(canvas5)
-    
+    console.warn(images)
+    for(let i = 0; i < images.length; i++)
+    {
+      console.warn(i);
+      data.append('images', images[i])
+    }
+    /*
     images.forEach((element: any) => {   
-      data.append('images', element);
+      data.append('images'[counter], element);
+      counter++
     });
-
+    */
     //{headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json')}
     
     return this.httpClient.post(this.REST_API_SERVER+url, data).pipe(map(res => { 

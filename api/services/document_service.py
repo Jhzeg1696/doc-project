@@ -3,9 +3,9 @@ import mysql.connector
 def get_data():
      # Creating the connection
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -20,9 +20,9 @@ def get_data():
 def get_document(id):
      # Creating the connection
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -56,9 +56,9 @@ def save_data(
     propertie19, 
     ):
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 
@@ -143,9 +143,9 @@ def update_document(
     propertie19, 
     ):
     database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
+        host="45.33.20.87",
+        user="test",
+        password="test",
         database="test"
     )
 

@@ -233,7 +233,8 @@ class Item(BaseModel):
 
 
 @app.post("/markers")
-def create_document(images: List[UploadFile], canvas1: str = Form(...), canvas2: str = Form(...), canvas3: str = Form(...), canvas4: str = Form(...), canvas5: str = Form(...), canvas6: str = Form(...), canvas7: str = Form(...), canvas8: str = Form(...)):
+def create_document(images: List[UploadFile], canvas1: str = Form(...), canvas2: str = Form(...), canvas3: str = Form(...), canvas4: str = Form(...), 
+canvas5: str = Form(...), canvas6: str = Form(...), canvas7: str = Form(...), canvas8: str = Form(...)):
     canvas1 = json.loads(canvas1)
     canvas2 = json.loads(canvas2)
     canvas3 = json.loads(canvas3)
@@ -247,47 +248,92 @@ def create_document(images: List[UploadFile], canvas1: str = Form(...), canvas2:
     path = "assets/trck_images/" + str(trckData['id']) + "/"
 
     print("Below are the properties of the first canvas")
-    for properties in canvas1:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
+    if canvas1:
+        if canvas1 != 'default message':
+            for properties in canvas1:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else:
+            database.save_trck_markers(1, trckData['id'], 150000, 150000)
    
     print("Below are the properties of the second canvas: ")
     
     if canvas2:
-        for properties in canvas2:
-            database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-            print(properties)
+        if canvas2 != 'default message 2':
+            for properties in canvas2:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else:
+            database.save_trck_markers(2, trckData['id'], 150000, 150000)
     else:
         database.save_trck_markers(2, trckData['id'], 150000, 150000)
 
-    for properties in canvas3:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
+    if canvas3:
+        if canvas3 != 'default message 2':
+            for properties in canvas3:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else:
+            database.save_trck_markers(3, trckData['id'], 150000, 150000)
+    else:
+        database.save_trck_markers(3, trckData['id'], 150000, 150000)
 
-    for properties in canvas4:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
+    if canvas4:
+        if canvas4 != 'default message 2':
+            for properties in canvas4:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else:
+            database.save_trck_markers(4, trckData['id'], 150000, 150000)
+    else:
+        database.save_trck_markers(4, trckData['id'], 150000, 150000)
 
-    for properties in canvas5:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
+    if canvas5:
+        if canvas5 != 'default message 2':
+            for properties in canvas5:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else: 
+            database.save_trck_markers(5, trckData['id'], 150000, 150000)
+    else:
+        database.save_trck_markers(5, trckData['id'], 150000, 150000)
 
-    for properties in canvas6:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
+    if canvas6:
+        if canvas6 != 'default message 2':
+            for properties in canvas6:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else:
+            database.save_trck_markers(6, trckData['id'], 150000, 150000)
+    else:
+        database.save_trck_markers(6, trckData['id'], 150000, 150000)
 
-    for properties in canvas7:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
+    if canvas7:
+        if canvas7 != 'default message 2':
+            for properties in canvas7:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else: 
+            database.save_trck_markers(7, trckData['id'], 150000, 150000)
+    else:
+        database.save_trck_markers(7, trckData['id'], 150000, 150000)
 
-    for properties in canvas8:
-        database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
-        print(properties)
-
+    if canvas8:
+        if canvas8 != 'default message 2':
+            for properties in canvas8:
+                database.save_trck_markers(properties['id'], trckData['id'], properties['x'], properties['y'])
+                print(properties)
+        else:
+            database.save_trck_markers(8, trckData['id'], 150000, 150000)
+    else:
+        database.save_trck_markers(8, trckData['id'], 150000, 150000)
+    
+    counterName = 0
     if files_service.create_folder(path):
         for img in images:
+            img.filename = str(counterName) + '.jpg'
             files_service.upload_file(path, img)
-            print(img.filename)
+            counterName += 1
 
     return {"message": "ss"}
 

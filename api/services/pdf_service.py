@@ -1,5 +1,6 @@
 from reportlab.pdfgen import canvas
 import os
+import re
 def create_pdf(trckID):
     pdf_file = 'assets/trck_images' + str(trckID) + '/dddddd.pdf'
  
@@ -25,6 +26,7 @@ def add_image(trckID, attachedImagesPath):
     from PyPDF2 import PdfFileWriter, PdfFileReader
     import io
     from services import database, image_service
+    from PIL import Image
 
     create_folder('assets/trck_images/' + str(trckID) + '/pdf')
     create_folder('assets/trck_images/' + str(trckID) + '/pdf_images')
@@ -54,13 +56,15 @@ def add_image(trckID, attachedImagesPath):
     y_start = 470
 
     attachedImagesXAxis = 0
-    attachedImagesYAxis = -150
+    attachedImagesYAxis = 0
 
     counter = 0
     counterXAxisSecondRow = 0
     counterToLineBreak = 0
 
     attachedImagesCounter = 0
+    atacchedImagesCounterToLineBreak = 0
+    atacchedImagesCounterXAxisSecondRow = 0
 
     for image in imagesPath:
         counterToLineBreak += 1
@@ -71,13 +75,17 @@ def add_image(trckID, attachedImagesPath):
         else:
             can.drawImage(image, x_start + counter, y_start, width=140, preserveAspectRatio=True, mask='auto')
             counter += 150
-
-        
-
+    attachedImagesPath.sort(key=lambda f: int(re.sub('\D', '', f)))
     for atacchedImage in attachedImagesPath:
-        can.drawImage(atacchedImage, attachedImagesXAxis + attachedImagesCounter, attachedImagesYAxis, width=50, preserveAspectRatio=True, mask='auto')
-        attachedImagesCounter += 125
         
+        atacchedImagesCounterToLineBreak += 1
+        if atacchedImagesCounterToLineBreak > 4:
+            can.drawImage(atacchedImage, attachedImagesXAxis + atacchedImagesCounterXAxisSecondRow, 200, width=100, height=100, preserveAspectRatio=True, mask='auto')
+            atacchedImagesCounterXAxisSecondRow += 125
+        else:
+            can.drawImage(atacchedImage, attachedImagesXAxis + attachedImagesCounter, 300, width=100, height=100, preserveAspectRatio=True, mask='auto')
+            attachedImagesCounter += 125
+            
     can.showPage()
     can.showPage()
     can.showPage()
