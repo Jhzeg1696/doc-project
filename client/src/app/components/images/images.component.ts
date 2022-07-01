@@ -57,6 +57,7 @@ export class ImagesComponent implements OnInit {
   loadImg1(files: any) 
   {
     this.image1 = files.item(0)!
+    this.removeDocument(this.image1)
     if(files.item(0))
     {
       const file = files.item(0);
@@ -65,7 +66,8 @@ export class ImagesComponent implements OnInit {
         this.preview1 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[0] = files.item(0);
+      //this.images.push(files.item(0)!)
     }
     
     this.newMessage(this.images);
@@ -82,7 +84,8 @@ export class ImagesComponent implements OnInit {
         this.preview2 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[1] = files.item(0);
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -99,7 +102,8 @@ export class ImagesComponent implements OnInit {
         this.preview3 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[2] = files.item(0)
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -116,7 +120,8 @@ export class ImagesComponent implements OnInit {
         this.preview4 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[3] = files.item(0)
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -133,7 +138,8 @@ export class ImagesComponent implements OnInit {
         this.preview5 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[4] = files.item(0)
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -150,7 +156,8 @@ export class ImagesComponent implements OnInit {
         this.preview6 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[5] = files.item(0)
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -167,7 +174,8 @@ export class ImagesComponent implements OnInit {
         this.preview7 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[6] = files.item(0)
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -184,7 +192,8 @@ export class ImagesComponent implements OnInit {
         this.preview8 = reader.result;
       };
       reader.readAsDataURL(file!);
-      this.images.push(files.item(0)!)
+      this.images[7] = files.item(0)
+      //this.images.push(files.item(0)!)
     }
 
     this.newMessage(this.images);
@@ -195,4 +204,9 @@ export class ImagesComponent implements OnInit {
     this._canvasDataService.changeMessageImages(data)
   }
 
+  removeDocument(doc: any){
+    this.images.forEach( (item, index) => {
+      if(item === doc) this.images.splice(index,1);
+    });
+ }
 }
