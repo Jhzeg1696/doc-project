@@ -52,10 +52,10 @@ def add_image(trckID, attachedImagesPath):
     packet = io.BytesIO()
     can = canvas.Canvas(packet)
     #can.drawString(10, 100, "Hello world")
-    x_start = 0
-    y_start = 470
+    x_start = 10
+    y_start = 370
 
-    attachedImagesXAxis = 0
+    attachedImagesXAxis = 50
     attachedImagesYAxis = 0
 
     counter = 0
@@ -66,10 +66,13 @@ def add_image(trckID, attachedImagesPath):
     atacchedImagesCounterToLineBreak = 0
     atacchedImagesCounterXAxisSecondRow = 0
 
+    can.drawImage('./assets/logo-placeholder.png', -15, 650, width=140, preserveAspectRatio=True, mask='auto')
+    can.drawString(200, 730, "First Paasdadasdasdadasdqweaasczxcasqge")
+
     for image in imagesPath:
         counterToLineBreak += 1
         if counterToLineBreak > 4:
-            can.drawImage(image, x_start + counterXAxisSecondRow, 300, width=140, preserveAspectRatio=True, mask='auto')
+            can.drawImage(image, x_start + counterXAxisSecondRow, 200, width=140, preserveAspectRatio=True, mask='auto')
             print(image)
             counterXAxisSecondRow += 150
         else:
@@ -80,10 +83,10 @@ def add_image(trckID, attachedImagesPath):
         
         atacchedImagesCounterToLineBreak += 1
         if atacchedImagesCounterToLineBreak > 4:
-            can.drawImage(atacchedImage, attachedImagesXAxis + atacchedImagesCounterXAxisSecondRow, 200, width=100, height=100, preserveAspectRatio=True, mask='auto')
+            can.drawImage(atacchedImage, attachedImagesXAxis + atacchedImagesCounterXAxisSecondRow, 100, width=100, height=100, preserveAspectRatio=True, mask='auto')
             atacchedImagesCounterXAxisSecondRow += 125
         else:
-            can.drawImage(atacchedImage, attachedImagesXAxis + attachedImagesCounter, 300, width=100, height=100, preserveAspectRatio=True, mask='auto')
+            can.drawImage(atacchedImage, attachedImagesXAxis + attachedImagesCounter, 230, width=100, height=100, preserveAspectRatio=True, mask='auto')
             attachedImagesCounter += 125
             
     can.showPage()

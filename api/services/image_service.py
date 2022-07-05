@@ -42,7 +42,7 @@ def draw(trckID):
 def drawMarkers(id, coordinates):
 
     image1 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
-    image2 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
+    image2 = cv2.imread('./imgg222.jpg')
     image3 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
     image4 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
     image5 = cv2.imread('./Site_Not_Found_Dreambot.fw.png')
